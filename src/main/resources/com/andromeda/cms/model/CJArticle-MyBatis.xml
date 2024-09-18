@@ -3,9 +3,9 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.andromeda.cms.model.Article">
-	<resultMap id="ArticleResultMap"
-		type="com.andromeda.cms.model.Article">
+<mapper namespace="com.andromeda.cms.model.CJArticle">
+	<resultMap id="CJArticleResultMap"
+		type="com.andromeda.cms.model.CJArticle">
 		<result property="id" column="id" />
 		<result property="abnStoryId" column="abnStoryId" />
 		<result property="author" column="author" />
@@ -53,7 +53,7 @@
 		<result property="published" column="published" />
 		<result property="source" column="source" />
 		<result property="hideAuthorName" column="hideAuthorName" />
-		
+		<result property="locale" column="locale" />
 	</resultMap>
 	
 	<insert id="Add" parameterType="map">
@@ -106,7 +106,8 @@
 			displayModifiedDate,
 			published,
 			source,
-			hideAuthorName
+			hideAuthorName,
+			locale
 		)
 		VALUES 
 		(
@@ -157,12 +158,13 @@
 			#{p.displayModifiedDate},
 			#{p.published},
 			#{p.source},
-			#{p.hideAuthorName}
+			#{p.hideAuthorName},
+			#{p.locale}
 		)
 	</insert>
 	
 	<update id="Update" parameterType="map">
-	UPDATE cms_proxy.articles
+	UPDATE cms_proxy.cj_articles
 	SET
 		abnStoryId = #{p.abnStoryId},
 		author = #{p.author},
@@ -210,15 +212,16 @@
 		displayModifiedDate = #{p.displayModifiedDate},
 		published = #{p.published},
 		source = #{p.source},
-		hideAuthorName = #{p.hideAuthorName}
+		hideAuthorName = #{p.hideAuthorName},
+		locale = #{p.locale}
 	WHERE id = #{p.id}
 	
 	</update>
 	
 	
 	
-	<select id="GetRkArticlesWithLetter" resultMap="ArticleResultMap" parameterType="map">
-		SELECT * FROM cms_proxy.articles WHERE primaryCategoryId =#{categoryId} 
+	<select id="GetRkArticlesWithLetter" resultMap="CJArticleResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.cj_articles WHERE primaryCategoryId =#{categoryId} 
 		<if test="startChar != null">
     	<bind name="pattern" value="startChar + '%'" />
       		AND seoSlug LIKE #{pattern}
@@ -228,16 +231,16 @@
    		</if>
 	</select>
 	
-	<select id="GetAll" resultMap="ArticleResultMap" parameterType="map">
-		SELECT * FROM cms_proxy.articles
+	<select id="GetAll" resultMap="CJArticleResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.cj_articles
 	</select>
 
-	<select id="GetBySubCategoryId" resultMap="ArticleResultMap" parameterType="map">
-		SELECT * FROM cms_proxy.articles WHERE primarysubcategoryid =#{subCategoryId} AND published = true
+	<select id="GetBySubCategoryId" resultMap="CJArticleResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.cj_articles WHERE primarysubcategoryid =#{subCategoryId} AND published = true
 	</select>
 	
-	<select id="GetLatestBySubCategoryIdWithoutPriority" resultMap="ArticleResultMap" parameterType="map">
-   		SELECT * FROM cms_proxy.articles WHERE primaryCategoryId =#{categoryId} 
+	<select id="GetLatestBySubCategoryIdWithoutPriority" resultMap="CJArticleResultMap" parameterType="map">
+   		SELECT * FROM cms_proxy.cj_articles WHERE primaryCategoryId =#{categoryId} 
    		AND primarysubcategoryid =#{subCategoryId} AND published = true
    		<if test = "contentType != null">
       		AND contentType=#{contentType}
@@ -248,44 +251,38 @@
    		</if>
 	</select>
 	
-	<select id="GetLatestBySubCategoryId" resultMap="ArticleResultMap" parameterType="map">
-   		SELECT * FROM cms_proxy.articles WHERE primaryCategoryId =#{categoryId} 
+	<select id="GetLatestBySubCategoryIdOnCreated" resultMap="CJArticleResultMap" parameterType="map">
+   		SELECT * FROM cms_proxy.cj_articles WHERE primaryCategoryId =#{categoryId} 
    		AND primarysubcategoryid =#{subCategoryId} AND published = true
    		<if test = "contentType != null">
       		AND contentType=#{contentType}
    		</if>
-		<if test = "latestInPriorityIds != null">
-				AND id NOT IN
-	      		<foreach item="id" collection="latestInPriorityIds" separator="," open="(" close=")">
-       				 #{id}
-    			</foreach>
-	   		</if>
-		ORDER BY updatedAt DESC
-		<if test = "limit != null">
-      		LIMIT #{limit}
-   		</if>
-	</select>
-	
-	<select id="GetLatestBySubCategoryIdOnCreated" resultMap="ArticleResultMap" parameterType="map">
-   		SELECT * FROM cms_proxy.articles WHERE primaryCategoryId =#{categoryId} 
-   		AND primarysubcategoryid =#{subCategoryId} AND published = true
-   		<if test = "contentType != null">
-      		AND contentType=#{contentType}
-   		</if>
-		<if test = "latestInPriorityIds != null">
-				AND id NOT IN
-	      		<foreach item="id" collection="latestInPriorityIds" separator="," open="(" close=")">
-       				 #{id}
-    			</foreach>
-	   		</if>
 		ORDER BY createdAt DESC
 		<if test = "limit != null">
       		LIMIT #{limit}
    		</if>
 	</select>
 	
-	<select id="GetLatestInPriorityBySubCategoryId" resultMap="ArticleResultMap" parameterType="map">
-		SELECT * FROM cms_proxy.articles WHERE  primaryCategoryId =#{categoryId}
+	<select id="GetLatestBySubCategoryId" resultMap="CJArticleResultMap" parameterType="map">
+   		SELECT * FROM cms_proxy.cj_articles WHERE primaryCategoryId =#{categoryId} 
+   		AND primarysubcategoryid =#{subCategoryId} AND published = true
+   		<if test = "contentType != null">
+      		AND contentType=#{contentType}
+   		</if>
+		<if test = "latestInPriorityIds != null">
+				AND id NOT IN
+	      		<foreach item="id" collection="latestInPriorityIds" separator="," open="(" close=")">
+       				 #{id}
+    			</foreach>
+	   		</if>
+		ORDER BY updatedAt DESC
+		<if test = "limit != null">
+      		LIMIT #{limit}
+   		</if>
+	</select>
+	
+	<select id="GetLatestInPriorityBySubCategoryId" resultMap="CJArticleResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.cj_articles WHERE  primaryCategoryId =#{categoryId}
 		AND primarysubcategoryid =#{subCategoryId} AND published = true 
 		AND prioritiseInPrimarySection = true 
 		<if test = "contentType != null">
@@ -297,8 +294,8 @@
    		</if>
 	</select>
 	
-	<select id="GetLatestInPriorityByCategoryId" resultMap="ArticleResultMap" parameterType="map">
-		SELECT * FROM cms_proxy.articles WHERE primarycategoryid =#{categoryId} AND published = true 
+	<select id="GetLatestInPriorityByCategoryId" resultMap="CJArticleResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.cj_articles WHERE primarycategoryid =#{categoryId} AND published = true 
 		AND prioritiseInPrimarySection = true
 		ORDER BY updatedAt DESC
 		<if test = "limit != null">
@@ -306,8 +303,8 @@
    		</if>
 	</select>
 	
-	<select id="GetLatestInPriorityByCategoryIdOnCreated" resultMap="ArticleResultMap" parameterType="map">
-		SELECT * FROM cms_proxy.articles WHERE primarycategoryid =#{categoryId} AND published = true 
+	<select id="GetLatestInPriorityByCategoryIdOnCreated" resultMap="CJArticleResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.cj_articles WHERE primarycategoryid =#{categoryId} AND published = true 
 		AND prioritiseInPrimarySection = true
 		ORDER BY createdAt DESC
 		<if test = "limit != null">
@@ -315,16 +312,16 @@
    		</if>
 	</select>
 	
-	<select id="GetByCategoryId" resultMap="ArticleResultMap" parameterType="map">
-		SELECT * FROM cms_proxy.articles WHERE primaryCategoryId =#{categoryId} AND published = true
+	<select id="GetByCategoryId" resultMap="CJArticleResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.cj_articles WHERE primaryCategoryId =#{categoryId} AND published = true
 	</select>
 	
-	<select id="GetByAbnStoryId" resultMap="ArticleResultMap" parameterType="map">
-		SELECT * FROM cms_proxy.articles WHERE abnStoryId =#{abnStoryId} AND published = true
+	<select id="GetByAbnStoryId" resultMap="CJArticleResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.cj_articles WHERE abnStoryId =#{abnStoryId} AND published = true
 	</select>
 	
-	<select id="GetLatestByCategoryId" resultMap="ArticleResultMap" parameterType="map">
-		SELECT * FROM cms_proxy.articles WHERE primaryCategoryId =#{categoryId} AND published = true
+	<select id="GetLatestByCategoryId" resultMap="CJArticleResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.cj_articles WHERE primaryCategoryId =#{categoryId} AND published = true
 		<if test = "latestInPriorityIds != null">
 				AND id NOT IN
 	      		<foreach item="id" collection="latestInPriorityIds" separator="," open="(" close=")">
@@ -337,8 +334,9 @@
    		</if>
 	</select>
 	
-	<select id="GetLatestByCategoryIdOnCreated" resultMap="ArticleResultMap" parameterType="map">
-		SELECT * FROM cms_proxy.articles WHERE primaryCategoryId =#{categoryId} AND published = true
+	
+	<select id="GetLatestByCategoryIdOnCreated" resultMap="CJArticleResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.cj_articles WHERE primaryCategoryId =#{categoryId} AND published = true
 		<if test = "latestInPriorityIds != null">
 				AND id NOT IN
 	      		<foreach item="id" collection="latestInPriorityIds" separator="," open="(" close=")">
@@ -351,8 +349,8 @@
    		</if>
 	</select>
 	
-	<select id="GetLatestByCategoryIdWithoutPriority" resultMap="ArticleResultMap" parameterType="map">
-		SELECT * FROM cms_proxy.articles WHERE primaryCategoryId =#{categoryId} AND published = true
+	<select id="GetLatestByCategoryIdWithoutPriority" resultMap="CJArticleResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.cj_articles WHERE primaryCategoryId =#{categoryId} AND published = true
 		ORDER BY updatedAt DESC
 		<if test = "limit != null">
       		LIMIT #{limit}
@@ -360,8 +358,8 @@
 	</select>
 	
 	
-	<select id="GetLatestPriorityArticles" resultMap="ArticleResultMap" parameterType="map">
-			SELECT * FROM cms_proxy.articles 
+	<select id="GetLatestPriorityArticles" resultMap="CJArticleResultMap" parameterType="map">
+			SELECT * FROM cms_proxy.cj_articles 
 			WHERE published = true AND prioritiseInLatestNews = true
 			ORDER BY updatedAt DESC
 			<if test = "limit != null">
@@ -370,8 +368,8 @@
 	</select>
 	
 	
-	<select id="GetLatestArticlesWithoutPriority" resultMap="ArticleResultMap" parameterType="map">
-			SELECT * FROM cms_proxy.articles 
+	<select id="GetLatestArticlesWithoutPriority" resultMap="CJArticleResultMap" parameterType="map">
+			SELECT * FROM cms_proxy.cj_articles 
 			WHERE published = true
 			<if test = "contentType != null">
 	      		AND contentType=#{contentType} 
@@ -382,8 +380,8 @@
 	   		</if>
 	</select>
 	
-	<select id="GetLatestArticles" resultMap="ArticleResultMap" parameterType="map">
-			SELECT * FROM cms_proxy.articles 
+	<select id="GetLatestArticles" resultMap="CJArticleResultMap" parameterType="map">
+			SELECT * FROM cms_proxy.cj_articles 
 			WHERE published = true
 			<if test = "contentType != null">
 	      		AND contentType=#{contentType} 
@@ -400,8 +398,8 @@
 	   		</if>
 	</select>
 	
-	<select id="GetLatestArticlesOnCreated" resultMap="ArticleResultMap" parameterType="map">
-			SELECT * FROM cms_proxy.articles 
+	<select id="GetLatestArticlesOnCreated" resultMap="CJArticleResultMap" parameterType="map">
+			SELECT * FROM cms_proxy.cj_articles 
 			WHERE published = true
 			<if test = "contentType != null">
 	      		AND contentType=#{contentType} 
@@ -413,8 +411,8 @@
 	</select>
 	
 	
-	<select id="GetLatestArticlesInPriority" resultMap="ArticleResultMap" parameterType="map">
-		SELECT * FROM cms_proxy.articles WHERE 
+	<select id="GetLatestArticlesInPriority" resultMap="CJArticleResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.cj_articles WHERE 
 		<if test = "contentType != null">
       		contentType= #{contentType} AND
    		</if>
@@ -426,27 +424,17 @@
    		</if>
 	</select>
 	
-	<select id="GetPhotos" resultMap="ArticleResultMap" parameterType="map">
-		SELECT * FROM cms_proxy.articles WHERE contentType='Photo Gallery'
-		AND published = true 
-		ORDER BY updatedAt DESC
-		<if test = "limit != null">
-      		LIMIT 15
-   		</if>
-	</select>
-
-	
-	<select id="GetVideos" resultMap="ArticleResultMap" parameterType="map">
+	<select id="GetVideos" resultMap="CJArticleResultMap" parameterType="map">
 		SELECT * from
 		(
 			(
-			SELECT * FROM cms_proxy.articles 
+			SELECT * FROM cms_proxy.cj_articles 
 			WHERE contentType='Video Gallery' AND published = true AND prioritiseInLatestNews = true
 			LIMIT 3
 			)
 			UNION
 			(
-			SELECT * FROM cms_proxy.articles 
+			SELECT * FROM cms_proxy.cj_articles 
 			WHERE contentType='Video Gallery' AND published = true 
 			<if test = "limit != null">
 	      		LIMIT #{limit}
@@ -457,51 +445,44 @@
 		
 	</select>
 	
-	<select id="GetLatestOld"
-		resultMap="ArticleResultMap" parameterType="map">
-		SELECT * FROM cms_proxy.articles WHERE
-		updatedAt BETWEEN to_date(#{fromDateStr},'YYYY-MM-DD') AND
-		to_date(#{toDateStr},'YYYY-MM-DD') AND published = true
-		ORDER BY updatedAt DESC
+	
+	<select id="GetById" resultMap="CJArticleResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.cj_articles WHERE id=#{id} AND published = true
 	</select>
 	
-	<select id="GetById" resultMap="ArticleResultMap" parameterType="map">
-		SELECT * FROM cms_proxy.articles WHERE id=#{id} AND published = true
-	</select>
-	
-	<select id="GetByIdWOPublished" resultMap="ArticleResultMap" parameterType="map">
-		SELECT * FROM cms_proxy.articles WHERE id=#{id}
+	<select id="GetByIdWOPublished" resultMap="CJArticleResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.cj_articles WHERE id=#{id}
 	</select>
 	
 	<select id="GetDistinctPublishDates" resultType="java.util.Date">
-		SELECT DISTINCT(DATE(publishedAt)) FROM cms_proxy.articles
+		SELECT DISTINCT(DATE(publishedAt)) FROM cms_proxy.cj_articles
 	</select>
 	
 	<select id="GetDistinctPublishYears" resultType="java.lang.Integer">
-		SELECT DISTINCT(EXTRACT(year FROM publishedAT)) FROM cms_proxy.articles
+		SELECT DISTINCT(EXTRACT(year FROM publishedAT)) FROM cms_proxy.cj_articles
 	</select>
 
 	
 	<select id="GetMaxArticlePublishDate" resultType="java.util.Date">
-		SELECT MAX(DATE(publishedAt)) FROM cms_proxy.articles
+		SELECT MAX(DATE(publishedAt)) FROM cms_proxy.cj_articles
 	</select>
 	
-	<select id="GetByPublishedDate" resultMap="ArticleResultMap" parameterType="map">
-		SELECT * FROM cms_proxy.articles WHERE DATE(publishedAt) = #{publishedAt} AND published = true
+	<select id="GetByPublishedDate" resultMap="CJArticleResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.cj_articles WHERE DATE(publishedAt) = #{publishedAt} AND published = true
 	</select>
 	
-	<select id="GetByPublishedYear" resultMap="ArticleResultMap" parameterType="map">
-		SELECT * FROM cms_proxy.articles 
+	<select id="GetByPublishedYear" resultMap="CJArticleResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.cj_articles 
 		WHERE EXTRACT(YEAR FROM publishedAt) = #{publishedYear} AND 
       		contentType= #{contentType} AND published = true
 	</select>
 	
 	<select id="DeleteById"  parameterType="map">
-		DELETE FROM cms_proxy.articles WHERE id = #{id}
+		DELETE FROM cms_proxy.cj_articles WHERE id = #{id}
 	</select>
 	
-	<select id="GetArticlesWithTag" resultMap="ArticleResultMap" parameterType="map">
-		SELECT * FROM cms_proxy.articles 
+	<select id="GetArticlesWithTag" resultMap="CJArticleResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.cj_articles 
 		WHERE ',' || tags || ',' SIMILAR TO #{tag} AND published = true
 		ORDER BY updatedAt DESC
 		<if test = "limit != null">

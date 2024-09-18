@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Copyright (C) 2020 by Andromeda. All Rights Reserved. -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.andromeda.cms.proxy.model.ATStory">
+
+	<resultMap id="ATStoryResultMap"
+		type="in.l4g.skills.edu.model.ATStory">
+		<result property="storyId" column="storyId" />
+		<result property="superCategoryId" column="superCategoryId" />
+		<result property="subCategoryId" column="subCategoryId" />
+		<result property="categoryId" column="categoryId" />
+	</resultMap>
+
+	<select id="GetAll" resultMap="ATStoryResultMap" parameterType="map">
+		SELECT * FROM dbo.ATStories
+	</select>
+
+	<select id="GetById" resultMap="ATStoryResultMap" parameterType="map">
+		SELECT * FROM dbo.ATStories WHERE storyId=#{storyId}
+	</select>
+
+</mapper>

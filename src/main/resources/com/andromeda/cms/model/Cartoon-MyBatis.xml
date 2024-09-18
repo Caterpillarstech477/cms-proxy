@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Copyright (C) 2020 by Andromeda. All Rights Reserved. -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.andromeda.cms.model.Cartoon">
+	<resultMap id="CartoonResultMap"
+		type="com.andromeda.cms.model.Cartoon">
+		<result property="id" column="id" />
+		<result property="cartoonId" column="cartoonId" />
+		<result property="abnStoryId" column="abnStoryId" />
+		<result property="title" column="title" />
+		<result property="englishTitle" column="englishTitle" />
+		<result property="imageUrl" column="imageUrl" />
+		<result property="imageCaption" column="imageCaption" />
+		<result property="imageAlternativeText" column="imageAlternativeText" />
+		<result property="newsKeywords" column="newsKeywords" />
+		<result property="locale" column="locale" />
+		<result property="tags" column="tags" />
+		<result property="createdAt" column="createdAt" />
+		<result property="updatedAt" column="updatedAt" />
+		<result property="publishedAt" column="publishedAt" />
+		<result property="imageWidth" column="imageWidth" />
+		<result property="imageHeight" column="imageHeight" />
+		<result property="published" column="published" />
+		<result property="source" column="source" />
+		<result property="primaryCategoryId" column="primaryCategoryId" />
+		<result property="primaryCategoryTeluguLabel" column="primaryCategoryTeluguLabel" />
+		<result property="primaryCategorySeoSlug" column="primaryCategorySeoSlug" />
+		<result property="primaryCategoryUrl" column="primaryCategoryUrl" />
+		<result property="publishedAtSm" column="publishedAtSm" />
+		<result property="updatedAtSm" column="updatedAtSm" />
+	</resultMap>
+
+	<insert id="Add" parameterType="map">
+		INSERT INTO cms_proxy.cartoons 
+		(
+			id,
+			cartoonId,
+			abnStoryId, 
+			title, 
+			englishTitle,
+			imageUrl,
+			imageCaption, 
+			imageAlternativeText, 
+			newsKeywords, 
+			tags,
+			createdAt,
+			updatedAt, 
+			publishedAt, 
+			imageWidth,
+			imageHeight,
+			published,
+			 source,
+			 primaryCategoryId, 
+			 primaryCategoryTeluguLabel,
+			 primaryCategorySeoSlug,
+			 primaryCategoryUrl,
+			 publishedAtSm,
+	     	updatedAtSm
+		)
+		VALUES 
+		(
+			#{p.id},
+			#{p.cartoonId},
+			#{p.abnStoryId}, 
+			#{p.title}, 
+			#{p.englishTitle},
+			#{p.imageUrl},
+			#{p.imageCaption}, 
+			#{p.imageAlternativeText}, 
+			#{p.newsKeywords}, 
+			#{p.tags},
+			#{p.createdAt},
+			#{p.updatedAt}, 
+			#{p.publishedAt}, 
+			#{p.imageWidth},
+			#{p.imageHeight},
+			#{p.published},
+			#{p.source},
+	 		#{p.primaryCategoryId}, 
+		 	#{p.primaryCategoryTeluguLabel},
+		 	#{p.primaryCategorySeoSlug},
+		 	#{p.primaryCategoryUrl},
+		 	#{p.publishedAtSm},
+		 #{p.updatedAtSm}
+		)
+	</insert>
+	
+	<update id="Update" parameterType="map">
+	UPDATE cms_proxy.cartoons
+	SET
+			cartoonId = #{p.cartoonId},
+			abnStoryId = #{p.abnStoryId}, 
+			title = #{p.title}, 
+			englishTitle = #{p.englishTitle},
+			imageUrl = #{p.imageUrl},
+			imageCaption = #{p.imageCaption},
+			imageAlternativeText = #{p.imageAlternativeText}, 
+			newsKeywords = #{p.newsKeywords}, 
+			tags = #{p.tags},
+			createdAt = #{p.createdAt},
+			updatedAt = #{p.updatedAt}, 
+			publishedAt = #{p.publishedAt}, 
+			imageWidth = #{p.imageWidth},
+			imageHeight = #{p.imageHeight},
+			published = #{p.published},
+			primaryCategoryId = #{p.primaryCategoryId}, 
+			primaryCategoryTeluguLabel = #{p.primaryCategoryTeluguLabel},
+			primaryCategorySeoSlug = #{p.primaryCategorySeoSlug},
+			primaryCategoryUrl = #{p.primaryCategoryUrl},
+			source = #{p.source},
+			publishedAtSm = #{p.publishedAtSm},
+			updatedAtSm = #{p.updatedAtSm}
+			WHERE id = #{p.id}
+	
+	</update>
+	
+	<select id="GetBetweenDates"
+		resultMap="CartoonResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.cartoons WHERE
+		updatedAt BETWEEN to_date(#{fromDateStr},'YYYY-MM-DD') AND
+		to_date(#{toDateStr},'YYYY-MM-DD') AND published = true
+		ORDER BY updatedAt DESC
+	</select>
+	
+
+	
+	<select id="GetLatestCartoons" resultMap="CartoonResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.cartoons 
+		WHERE published = true 
+		ORDER BY updatedAt DESC
+		<if test = "limit != null">
+      		LIMIT #{limit}
+   		</if>
+	</select>
+	
+	<select id="GetLatestCartoonsOnCreated" resultMap="CartoonResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.cartoons 
+		WHERE published = true 
+		ORDER BY createdAt DESC
+		<if test = "limit != null">
+      		LIMIT #{limit}
+   		</if>
+	</select>
+	
+	<select id="GetAll" resultMap="CartoonResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.cartoons
+	</select>
+
+	<select id="GetById" resultMap="CartoonResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.cartoons WHERE id=#{id} AND published = true 
+	</select>
+	
+	<select id="GetByIdWOPublished" resultMap="CartoonResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.cartoons WHERE id=#{id}
+	</select>
+	
+	
+</mapper>

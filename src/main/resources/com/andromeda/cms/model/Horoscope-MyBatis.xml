@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Copyright (C) 2020 by Andromeda. All Rights Reserved. -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.andromeda.cms.model.Horoscope">
+	<resultMap id="HoroscopeResultMap"
+		type="com.andromeda.cms.model.Horoscope">
+		<result property="id" column="id" />
+		<result property="createdAt" column="createdAt" />
+		<result property="updatedAt" column="updatedAt" />
+		<result property="publishedAt" column="publishedAt" />
+		<result property="horoscopeId" column="horoscopeId" />
+		<result property="title" column="title" />
+		<result property="englishTitle" column="englishTitle" />
+		<result property="horoscopeType" column="horoscopeType" />
+		<result property="newsKeywords" column="newsKeywords" />
+		<result property="locale" column="locale" />
+		<result property="tags" column="tags" />
+		<result property="meshamAries" column="meshamAries" />
+		<result property="vrushabamTaurus" column="vrushabamTaurus" />
+		<result property="mithunamGemini" column="mithunamGemini" />
+		<result property="karkatakamCancer" column="karkatakamCancer" />
+		<result property="simhaLeo" column="simhaLeo" />
+		<result property="kanyaVirgo" column="kanyaVirgo" />
+		<result property="tulaLibra" column="tulaLibra" />
+		<result property="vruschikamScorpio" column="vruschikamScorpio" />
+		<result property="dhanassuSagittarius" column="dhanassuSagittarius" />
+		<result property="makaramCapricorn" column="makaramCapricorn" />
+		<result property="kumbhamAquarius" column="kumbhamAquarius" />
+		<result property="meenamPisces" column="meenamPisces" />
+		<result property="panchangam" column="panchangam" />
+		<result property="startDate" column="startDate" />
+		<result property="endDate" column="endDate" />
+		<result property="published" column="published" />
+		<result property="source" column="source" />
+		<result property="primaryCategoryId" column="primaryCategoryId" />
+		<result property="primaryCategoryTeluguLabel" column="primaryCategoryTeluguLabel" />
+		<result property="primaryCategorySeoSlug" column="primaryCategorySeoSlug" />
+		<result property="primaryCategoryUrl" column="primaryCategoryUrl" />
+		<result property="publishedAtSm" column="publishedAtSm" />
+		<result property="updatedAtSm" column="updatedAtSm" />
+	</resultMap>
+	
+	<insert id="Add" parameterType="map">
+		INSERT INTO cms_proxy.horoscopes 
+		(
+			 id,
+		 createdAt,
+		 updatedAt,
+		 publishedAt,
+		 horoscopeId,
+		 title,
+		 englishTitle,
+		 tags,
+		 horoscopeType,
+		 newsKeywords,
+		 locale,
+		 meshamAries,
+		 vrushabamTaurus,
+		 mithunamGemini,
+		 karkatakamCancer,
+		 simhaLeo,
+		 kanyaVirgo,
+		 tulaLibra,
+		 vruschikamScorpio,
+		 dhanassuSagittarius,
+		 makaramCapricorn,
+		 kumbhamAquarius,
+		 meenamPisces,
+		 panchangam,
+		 startDate,
+		 endDate,
+		 published,
+		 source,
+		 primaryCategoryId, 
+		 primaryCategoryTeluguLabel,
+		 primaryCategorySeoSlug,
+		 primaryCategoryUrl,
+		 publishedAtSm,
+	     updatedAtSm
+		)
+		VALUES 
+		(
+		 #{p.id},
+		 #{p.createdAt},
+		 #{p.updatedAt},
+		 #{p.publishedAt},
+		 #{p.horoscopeId},
+		 #{p.title},
+		 #{p.englishTitle},
+		 #{p.tags},
+		 #{p.horoscopeType},
+		 #{p.newsKeywords},
+		 #{p.locale},
+		 #{p.meshamAries},
+		 #{p.vrushabamTaurus},
+		 #{p.mithunamGemini},
+		 #{p.karkatakamCancer},
+		 #{p.simhaLeo},
+		 #{p.kanyaVirgo},
+		 #{p.tulaLibra},
+		 #{p.vruschikamScorpio},
+		 #{p.dhanassuSagittarius},
+		 #{p.makaramCapricorn},
+		 #{p.kumbhamAquarius},
+		 #{p.meenamPisces},
+		 #{p.panchangam},
+		 #{p.startDate},
+		 #{p.endDate},
+		 #{p.published}, 
+		 #{p.source},
+	 	 #{p.primaryCategoryId}, 
+		 #{p.primaryCategoryTeluguLabel},
+		 #{p.primaryCategorySeoSlug},
+		 #{p.primaryCategoryUrl},
+		 #{p.publishedAtSm},
+		 #{p.updatedAtSm}
+		)
+	</insert>
+	
+	<update id="Update" parameterType="map">
+	UPDATE cms_proxy.horoscopes
+	SET
+	createdAt =  #{p.createdAt},
+	updatedAt = #{p.updatedAt},
+	publishedAt = #{p.publishedAt},
+	horoscopeId = #{p.horoscopeId},
+	title =  #{p.title},
+	englishTitle =  #{p.englishTitle},
+	tags =  #{p.tags},
+	horoscopeType = #{p.horoscopeType},
+	newsKeywords = #{p.newsKeywords},
+	locale = #{p.locale},
+	meshamAries = #{p.meshamAries},
+	vrushabamTaurus = #{p.vrushabamTaurus},
+	mithunamGemini = #{p.mithunamGemini},
+	karkatakamCancer =  #{p.karkatakamCancer},
+	simhaLeo = #{p.simhaLeo},
+	kanyaVirgo = #{p.kanyaVirgo},
+	tulaLibra =	 #{p.tulaLibra},
+	vruschikamScorpio =	 #{p.vruschikamScorpio},
+	dhanassuSagittarius =	 #{p.dhanassuSagittarius},
+	makaramCapricorn =	 #{p.makaramCapricorn},
+	kumbhamAquarius =	 #{p.kumbhamAquarius},
+	meenamPisces =	 #{p.meenamPisces},
+	panchangam = #{p.panchangam},
+	startDate =	 #{p.startDate},
+	endDate =	 #{p.endDate},
+	published = #{p.published},
+	primaryCategoryId = #{p.primaryCategoryId}, 
+	primaryCategoryTeluguLabel = #{p.primaryCategoryTeluguLabel},
+	primaryCategorySeoSlug = #{p.primaryCategorySeoSlug},
+	primaryCategoryUrl = #{p.primaryCategoryUrl},
+	source = #{p.source},
+	publishedAtSm = #{p.publishedAtSm},
+	updatedAtSm = #{p.updatedAtSm}
+	WHERE id = #{p.id}
+	</update>	
+	
+	<select id="GetAll" resultMap="HoroscopeResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.horoscopes
+	</select>
+
+	<select id="GetById" resultMap="HoroscopeResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.horoscopes WHERE id=#{id} and published = true
+	</select>
+	
+	<select id="GetByIdWOPublished" resultMap="HoroscopeResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.horoscopes WHERE id=#{id}
+	</select>
+	
+	<select id="GetLatestByType" resultMap="HoroscopeResultMap" parameterType="map">
+		SELECT
+   		DISTINCT ON (horoscopeType) horoscopeType, *
+		FROM
+   		cms_proxy.horoscopes
+		ORDER BY
+		   horoscopeType,
+		   updatedAt DESC
+	</select>
+	
+	
+	
+</mapper>

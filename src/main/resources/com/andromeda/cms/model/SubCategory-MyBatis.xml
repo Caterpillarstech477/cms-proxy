@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Copyright (C) 2020 by Andromeda. All Rights Reserved. -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.andromeda.cms.model.SubCategory">
+	<resultMap id="SubCategoryResultMap"
+		type="com.andromeda.cms.model.SubCategory">
+		<result property="id" column="id" />
+		<result property="subCategoryId" column="subCategoryId" />
+		<result property="name" column="name" />
+		<result property="categoryId" column="categoryId" />
+		<result property="description" column="description" />
+		<result property="metaTitle" column="metaTitle" />
+		<result property="keywords" column="keywords" />
+		<result property="teluguLabel" column="teluguLabel" />
+		<result property="seoSlug" column="seoSlug" />
+		<result property="url" column="url" />
+	</resultMap>
+
+	<insert id="Add" parameterType="map">
+		INSERT INTO cms_proxy.subcategories 
+		(
+			id,
+			subCategoryId, 
+			name, 
+			categoryId,
+			description,
+			metaTitle,
+			keywords, 
+			teluguLabel, 
+			seoSlug,
+			url
+		)
+		VALUES 
+		(
+			#{p.id},
+			#{p.subCategoryId}, 
+			#{p.name}, 
+			#{p.categoryId},
+			#{p.description},
+			#{p.metaTitle},
+			#{p.keywords}, 
+			#{p.teluguLabel}, 
+			#{p.seoSlug},
+			#{p.url}
+		)
+		ON CONFLICT (subCategoryId) DO NOTHING
+	</insert>
+	
+	<update id="Update" parameterType="map">
+	UPDATE cms_proxy.subcategories
+	SET
+		subCategoryId = #{p.subCategoryId},
+		name = #{p.name}, 
+		categoryId = #{p.categoryId},
+		description = #{p.description},
+		metaTitle = #{p.metaTitle},
+		keywords = #{p.keywords},  
+		teluguLabel = #{p.teluguLabel}, 
+		seoSlug = #{p.seoSlug},  
+		url = #{p.url}
+	WHERE id = #{p.id}
+	
+	</update>
+	
+	<select id="GetAll" resultMap="SubCategoryResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.subcategories
+	</select>
+
+	<select id="GetById" resultMap="SubCategoryResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.subcategories WHERE id=#{id}
+	</select>
+	
+	
+</mapper>

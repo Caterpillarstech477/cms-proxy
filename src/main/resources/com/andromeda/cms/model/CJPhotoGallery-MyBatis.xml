@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Copyright (C) 2020 by Andromeda. All Rights Reserved. -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.andromeda.cms.model.CJPhotoGallery">
+	<resultMap id="CJPhotoGalleryResultMap"
+		type="com.andromeda.cms.model.CJPhotoGallery">
+		<result property="id" column="id" />
+		<result property="abnStoryId" column="abnStoryId" />
+		<result property="author" column="author" />
+		<result property="publishedAt" column="publishedAt" />
+		<result property="publishedYear" column="publishedYear" />
+		<result property="createdAt" column="createdAt" />
+		<result property="updatedAt" column="updatedAt" />
+		<result property="headline" column="headline" />
+		<result property="englishTitle" column="englishTitle" />
+		<result property="summary" column="summary" />
+		<result property="primaryCategoryId" column="primaryCategoryId" />
+		<result property="primaryCategoryLabel" column="primaryCategoryLabel" />
+		<result property="primaryCategorySeoSlug" column="primaryCategorySeoSlug" />
+		<result property="primaryCategoryUrl" column="primaryCategoryUrl" />
+		<result property="primarySubCategoryId" column="primarySubCategoryId" />
+		<result property="primarySubCategoryTeluguLabel" column="primarySubCategoryTeluguLabel" />
+		<result property="primarySubCategorySeoSlug" column="primarySubCategorySeoSlug" />
+		<result property="primarySubCategoryUrl" column="primarySubCategoryUrl" />
+		<result property="seoSlug" column="seoSlug" />
+		<result property="newsKeywords" column="newsKeywords" />
+		<result property="metaTitle" column="metaTitle" />
+		<result property="metaDescription" column="metaDescription" />
+		<result property="tags" column="tags" />
+		<result property="tagUrls" column="tagUrls" />
+		<result property="url" column="url" />
+		<result property="ampUrl" column="ampUrl" />
+		<result property="contentType" column="contentType" />
+		<result property="bulkImageUpload" column="bulkImageUpload" />
+		<result property="imageWithDescription" column="imageWithDescription" />
+		<result property="published" column="published" />
+		<result property="source" column="source" />
+		<result property="locale" column="locale" />
+		<result property="photoLocation" column="photoLocation" />
+		<result property="publishedAtSm" column="publishedAtSm" />
+		<result property="updatedAtSm" column="updatedAtSm" />
+		<result property="deleted" column="deleted" />
+	</resultMap>
+	
+	<insert id="Add" parameterType="map">
+		INSERT INTO ${tableName} 
+		(
+			id,
+			abnStoryId, 
+			author,
+			publishedYear, 
+			publishedAt,
+			createdAt,
+			updatedAt, 
+			headline, 
+			englishTitle, 
+			summary,
+			primaryCategoryId, 
+			primaryCategoryTeluguLabel,
+			primaryCategorySeoSlug,
+			primaryCategoryUrl,
+			primarySubCategoryId,
+			primarySubCategoryTeluguLabel,
+			primarySubCategorySeoSlug,
+			primarySubCategoryUrl,
+			seoSlug,
+			newsKeywords,
+			metaTitle,
+			metaDescription, 
+			tags,
+			tagUrls,
+			url,
+			ampUrl,
+			contentType,
+			bulkImageUpload,
+			imageWithDescription,
+			published,
+			source,
+			locale,
+			photoLocation,
+			imageCaption,
+			imageUrl,
+		    imageWidth,
+	        imageHeight,
+	        thumbnailPrimaryImageUrl,
+	        prioritiseInPhotoLanding,
+	        publishedAtSm,
+	        updatedAtSm
+		)
+		VALUES 
+		(
+			#{p.id},
+			#{p.abnStoryId}, 
+			#{p.author},
+			#{p.publishedYear},
+			#{p.publishedAt},
+			#{p.createdAt},
+			#{p.updatedAt}, 
+			#{p.headline}, 
+			#{p.englishTitle}, 
+			#{p.summary},
+			#{p.primaryCategoryId}, 
+			#{p.primaryCategoryTeluguLabel},
+			#{p.primaryCategorySeoSlug},
+			#{p.primaryCategoryUrl},
+			#{p.primarySubCategoryId},
+			#{p.primarySubCategoryTeluguLabel},
+			#{p.primarySubCategorySeoSlug},
+			#{p.primarySubCategoryUrl},
+			#{p.seoSlug},
+			#{p.newsKeywords},
+			#{p.metaTitle},
+			#{p.metaDescription},
+			#{p.tags},
+			#{p.tagUrls},
+			#{p.url},
+			#{p.ampUrl},
+			#{p.contentType},
+			#{p.bulkImageUpload}::jsonb,
+			#{p.imageWithDescription}::jsonb,
+			#{p.published},
+			#{p.source},
+			#{p.locale},
+			#{p.photoLocation},
+			#{p.imageCaption},
+			#{p.imageUrl},
+			#{p.imageWidth},
+			#{p.imageHeight},
+			#{p.thumbnailPrimaryImageUrl},
+			#{p.prioritiseInPhotoLanding},
+			#{p.publishedAtSm},
+			#{p.updatedAtSm}
+		)
+	</insert>
+	
+	<update id="Update" parameterType="map">
+	UPDATE cms_proxy.cj_photoGallery
+	SET
+		abnStoryId = #{p.abnStoryId},
+		author = #{p.author},
+		publishedYear = #{p.publishedYear},		 
+		createdAt = #{p.createdAt},
+		updatedAt = #{p.updatedAt},
+		headline = #{p.headline},  
+		englishTitle = #{p.englishTitle}, 
+		summary = #{p.summary},
+		primaryCategoryId = #{p.primaryCategoryId}, 
+		primaryCategoryTeluguLabel = #{p.primaryCategoryTeluguLabel},
+		primaryCategorySeoSlug = #{p.primaryCategorySeoSlug},
+		primaryCategoryUrl = #{p.primaryCategoryUrl},
+		primarySubCategoryId = #{p.primarySubCategoryId},
+		primarySubCategoryTeluguLabel = #{p.primarySubCategoryTeluguLabel},
+		primarySubCategorySeoSlug  = #{p.primarySubCategorySeoSlug},
+		primarySubCategoryUrl = #{p.primarySubCategoryUrl},
+		seoSlug = #{p.seoSlug},
+		newsKeywords = #{p.newsKeywords},
+		metaTitle = #{p.metaTitle},
+		metaDescription = #{p.metaDescription},
+		tags =  #{p.tags},
+		tagUrls =  #{p.tagUrls},
+		url = #{p.url},
+		ampUrl = #{p.ampUrl},
+		contentType = #{p.contentType},
+		bulkImageUpload = #{p.bulkImageUpload}::jsonb,
+		imageWithDescription = #{p.imageWithDescription}::jsonb,
+		published = #{p.published},
+		source = #{p.source},
+		locale = #{p.locale},
+		photoLocation = #{p.photoLocation},
+		imageCaption = #{p.imageCaption},
+		imageUrl = #{p.imageUrl},
+		imageWidth = #{p.imageWidth},
+		imageHeight = #{p.imageHeight},
+		thumbnailPrimaryImageUrl = #{p.thumbnailPrimaryImageUrl},
+		prioritiseInPhotoLanding = #{p.prioritiseInPhotoLanding},
+		publishedAtSm = #{p.publishedAtSm},
+		updatedAtSm = #{p.updatedAtSm},
+		deleted = #{p.deleted}
+	WHERE id = #{p.id}
+	
+	</update>
+	
+	<select id="GetLatestBySubCategoryIdOnCreated" resultMap="CJPhotoGalleryResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.cj_photoGallery WHERE primaryCategoryid =#{categoryId}
+		AND primarysubcategoryid =#{subCategoryId} AND published = true 
+		ORDER BY createdAt DESC
+		<if test = "limit != null">
+      		LIMIT #{limit}
+   		</if>
+		<if test = "offset != null">
+      		OFFSET #{offset}
+   		</if>
+	</select>
+	
+	<select id="GetLatestBySubCategoryId" resultMap="CJPhotoGalleryResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.cj_photoGallery WHERE primaryCategoryid =#{categoryId}
+		AND primarysubcategoryid =#{subCategoryId} AND published = true 
+		ORDER BY updatedAt DESC
+		<if test = "limit != null">
+      		LIMIT #{limit}
+   		</if>
+		<if test = "offset != null">
+      		OFFSET #{offset}
+   		</if>
+	</select>
+	
+	
+	<select id="GetByAbnStoryId" resultMap="CJPhotoGalleryResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.cj_photoGallery  WHERE abnStoryId =#{abnStoryId} AND published = true
+	</select>
+	
+	<select id="GetLatestByCategoryId" resultMap="CJPhotoGalleryResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.cj_photoGallery  WHERE primaryCategoryId =#{categoryId} AND published = true
+			<if test = "latestInPriorityIds != null">
+				AND id NOT IN
+	      		<foreach item="id" collection="latestInPriorityIds" separator="," open="(" close=")">
+       				 #{id}
+    			</foreach>
+	   		</if>
+		ORDER BY updatedAt DESC
+		<if test = "limit != null">
+      		LIMIT #{limit}
+   		</if>
+   		<if test = "offset != null">
+      		OFFSET #{offset}
+   		</if>
+	</select>
+	
+	<select id="GetLatestByCategoryIdOnCreated" resultMap="CJPhotoGalleryResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.cj_photoGallery  WHERE primaryCategoryId =#{categoryId} AND published = true
+			<if test = "latestInPriorityIds != null">
+				AND id NOT IN
+	      		<foreach item="id" collection="latestInPriorityIds" separator="," open="(" close=")">
+       				 #{id}
+    			</foreach>
+	   		</if>
+		ORDER BY createdAt DESC
+		<if test = "limit != null">
+      		LIMIT #{limit}
+   		</if>
+   		<if test = "offset != null">
+      		OFFSET #{offset}
+   		</if>
+	</select>
+	
+	<select id="GetLatestPhotosWithoutPriority" resultMap="CJPhotoGalleryResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.cj_photoGallery WHERE primaryCategoryId =#{categoryId} AND published = true
+		ORDER BY updatedAt DESC
+		<if test = "limit != null">
+      		LIMIT #{limit}
+   		</if>
+	</select>
+	
+		<select id="GetLatestPhotosBySubCategoryWithoutPriority" resultMap="CJPhotoGalleryResultMap" parameterType="map">
+   		SELECT * FROM cms_proxy.cj_photoGallery WHERE primaryCategoryId =#{categoryId} 
+   		AND primarysubcategoryid =#{subCategoryId} AND published = true
+		ORDER BY updatedAt DESC
+		<if test = "limit != null">
+      		LIMIT #{limit}
+   		</if>
+	</select>
+	
+	<!--<select id="GetLatestPhotos" resultMap="CJPhotoGalleryResultMap" parameterType="map">
+
+			SELECT * FROM cms_proxy.cj_photoGallery  
+			WHERE published = true 
+			ORDER BY publishedAt DESC
+			<if test = "limit != null">
+	      		LIMIT #{limit}
+	   		</if>
+	</select> -->
+	
+	<select id="GetLatestPhotos" resultMap="CJPhotoGalleryResultMap" parameterType="map">
+			SELECT * FROM cms_proxy.cj_photoGallery 
+			WHERE published = true
+			<if test = "latestInPriorityIds != null">
+				AND id NOT IN
+	      		<foreach item="id" collection="latestInPriorityIds" separator="," open="(" close=")">
+       				 #{id}
+    			</foreach>
+	   		</if>
+			ORDER BY updatedAt DESC
+			<if test = "limit != null">
+	      		LIMIT #{limit}
+	   		</if>
+	</select>
+	
+	<select id="GetLatestPhotosOnCreated" resultMap="CJPhotoGalleryResultMap" parameterType="map">
+			SELECT * FROM cms_proxy.cj_photoGallery 
+			WHERE published = true
+			<if test = "latestInPriorityIds != null">
+				AND id NOT IN
+	      		<foreach item="id" collection="latestInPriorityIds" separator="," open="(" close=")">
+       				 #{id}
+    			</foreach>
+	   		</if>
+			ORDER BY createdAt DESC
+			<if test = "limit != null">
+	      		LIMIT #{limit}
+	   		</if>
+	</select>
+	
+	<select id="GetPhotos" resultMap="CJPhotoGalleryResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.cj_photoGallery WHERE contentType='Photo Gallery'
+		AND published = true 
+		ORDER BY updatedAt DESC
+		<if test = "limit != null">
+      		LIMIT 15
+   		</if>
+	</select>
+	
+	
+	<select id="GetLatestPhotosInPriority" resultMap="CJPhotoGalleryResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.cj_photoGallery WHERE published = true 
+		AND prioritiseInPhotoLanding = true
+		ORDER BY updatedAt DESC
+		<if test = "limit != null">
+      		LIMIT #{limit}
+   		</if>
+	</select>
+	
+	<select id="GetLatestPhotosInPriorityOnCreated" resultMap="CJPhotoGalleryResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.cj_photoGallery WHERE published = true 
+		AND prioritiseInPhotoLanding = true
+		ORDER BY createdAt DESC
+		<if test = "limit != null">
+      		LIMIT #{limit}
+   		</if>
+	</select>
+
+
+	<select id="GetByIdWOPublished" resultMap="CJPhotoGalleryResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.cj_photoGallery  WHERE id=#{id}
+	</select>
+	
+	<select id="GetById" resultMap="CJPhotoGalleryResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.cj_photoGallery  WHERE id=#{id} AND published = true
+	</select>
+	
+	<select id="GetByPublishedDate" resultMap="CJPhotoGalleryResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.cj_photoGallery WHERE DATE(publishedAt) = #{publishedAt} AND published = true
+	</select>
+	
+	
+	<select id="GetByPublishedYear" resultMap="CJPhotoGalleryResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.cj_photoGallery 
+		WHERE EXTRACT(YEAR FROM publishedAt) = #{publishedYear} AND published = true
+		ORDER BY updatedAt DESC
+	</select>
+	
+	<select id="GetAll" resultMap="CJPhotoGalleryResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.cj_photoGallery  WHERE published = true
+	</select>
+	
+	<select id="DeleteById"  parameterType="map">
+		DELETE FROM cms_proxy.cj_photoGallery WHERE id = #{id}
+	</select>
+</mapper>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Copyright (C) 2020 by Andromeda. All Rights Reserved. -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.andromeda.cms.model.CJCategory">
+	<resultMap id="CJCategoryResultMap"
+		type="com.andromeda.cms.model.CJCategory">
+		<result property="id" column="id" />
+		<result property="categoryId" column="categoryId" />
+		<result property="name" column="name" />
+		<result property="description" column="description" />
+		<result property="metaTitle" column="metaTitle" />
+		<result property="metaDescription" column="metaDescription" />
+		<result property="keywords" column="keywords" />
+		<result property="teluguLabel" column="teluguLabel" />
+		<result property="seoSlug" column="seoSlug" />
+		<result property="subCategories" column="subCategories" />
+		<result property="url" column="url" />
+	</resultMap>
+	
+	<insert id="Add" parameterType="map">
+		INSERT INTO cms_proxy.cj_categories 
+		(
+			id,
+			categoryId, 
+			name, 
+			description,
+			metaTitle,
+			metaDescription,
+			keywords, 
+			teluguLabel, 
+			seoSlug, 
+			subCategories,
+			url
+		)
+		VALUES 
+		(
+			#{p.id},
+			#{p.categoryId}, 
+			#{p.name}, 
+			#{p.description},
+			#{p.metaTitle},
+			#{p.metaDescription},
+			#{p.keywords}, 
+			#{p.teluguLabel}, 
+			#{p.seoSlug}, 
+			#{p.subCategories},
+			#{p.url}
+		)
+		ON CONFLICT (categoryId) DO NOTHING
+	</insert>
+	
+	<update id="Update" parameterType="map">
+	UPDATE cms_proxy.cj_categories 
+		SET
+			categoryId = #{p.categoryId},
+			name = #{p.name}, 
+			description = #{p.description},
+			metaTitle = #{p.metaTitle},
+			metaDescription = #{p.metaDescription},
+			keywords = #{p.keywords}, 
+			teluguLabel = #{p.teluguLabel}, 
+			seoSlug = #{p.seoSlug}, 
+			subCategories = #{p.subCategories},
+			url = #{p.url}
+		WHERE id = #{p.id} 
+	</update>
+	
+	<select id="GetAll" resultMap="CJCategoryResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.cj_categories
+	</select>
+
+	<select id="GetById" resultMap="CJCategoryResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.cj_categories WHERE id=#{id}
+	</select>
+	
+	<select id="GetByName" resultMap="CJCategoryResultMap" parameterType="map">
+		SELECT * FROM cms_proxy.cj_categories WHERE name=#{name}
+	</select>
+	
+	
+</mapper>
