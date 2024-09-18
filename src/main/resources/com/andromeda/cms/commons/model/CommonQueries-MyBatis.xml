@@ -1,1 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
+<mapper namespace="com.andromeda.cms.commons.model.CommonQueries">
+	<select id="GetTableName" resultType="java.lang.String" parameterType="map">
+		SELECT getPartitionTableName(#{masterTableName}, #{uniqueColumn}, #{partitionIdColumn}, #{partitionIdValue}, #{indexColumn1}, #{indexColumn2}, #{indexColumn3});
+	</select>
+	
+	<select id="GetMonths" resultType="java.util.Date" parameterType="map">
+		SELECT t.day::date 
+		FROM   generate_series(cast(#{fromTimestamp} as timestamp) , cast(#{toTimestamp} as timestamp), interval  '1 day') AS t(day);
+    </select>
+</mapper>
